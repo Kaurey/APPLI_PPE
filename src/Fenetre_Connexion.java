@@ -1,33 +1,30 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 
-import java.awt.FlowLayout;
-
-
 public class Fenetre_Connexion extends JFrame {
 	private JTextField saisieLogin = new JTextField();
-	private JTextField saisieMdp = new JTextField();
+	private JPasswordField saisieMdp = new JPasswordField();
 	private static String log;
 	private static String mdp;
 
@@ -62,6 +59,9 @@ public class Fenetre_Connexion extends JFrame {
 				Connection();
 			}
 		});
+		key_enter enter = new key_enter();
+		saisieMdp.addKeyListener(enter);
+		saisieLogin.addKeyListener(enter);
 		
 		JButton boutonAnnuler = new JButton("Annuler");
 		boutonAnnuler.addActionListener(new effacerJTextField());
@@ -166,5 +166,4 @@ public class Fenetre_Connexion extends JFrame {
 			saisieMdp.setText("");	
 		}	
 	}
-
 }
