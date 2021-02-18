@@ -21,7 +21,6 @@ import java.sql.SQLException;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import com.mysql.cj.xdevapi.Statement;
 
 import java.awt.FlowLayout;
 
@@ -105,7 +104,7 @@ public class Fenetre_Connexion extends JFrame {
 		catch (ClassNotFoundException ex) { //System.out.println("Driver Failed To Load"); 
 			System.out.println(ex.getMessage()); 
 		} // TODO connexion
-		String connectionUrl = "jdbc:mysql://localhost:3306/gsbv2.2";
+		String connectionUrl = "jdbc:mysql://127.0.0.1:3306/gsbv2.2";
 		try { 
 			Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 			System.out.println("Connected To Server Successfully");
