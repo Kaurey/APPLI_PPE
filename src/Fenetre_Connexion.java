@@ -1,4 +1,6 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
@@ -12,9 +14,15 @@ import javax.swing.JPasswordField;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 
 @SuppressWarnings("serial")
@@ -90,6 +98,11 @@ public class Fenetre_Connexion extends JFrame {
 		panelTitre.add(titre);
 		getContentPane().add(panelTitre, BorderLayout.NORTH);
 
+		JLabel lien = new JLabel("[ Cliquez ICI ]");
+		lien.setForeground(new Color(123, 104, 238));
+		lien.setBounds(227, 259, 212, 13);
+		panelTitre.add(lien);
+		
 		String imgUrl = "image/logo.jpg";
 		ImageIcon logo = new ImageIcon(imgUrl);
 		JLabel logoTitre = new JLabel(logo, JLabel.CENTER);
@@ -98,17 +111,35 @@ public class Fenetre_Connexion extends JFrame {
 		JLabel login = new JLabel("Login : ");
 		JLabel mdp = new JLabel("Mot de passe : ");
 
+		lien.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				 try
+				    {
+				        Desktop.getDesktop().browse(new URI("http://gsbthococpas.alwaysdata.net/partie2/login_gsb.txt"));
+				    } 
+				    catch (URISyntaxException | IOException error) 
+				    {
+				        error.printStackTrace();
+				    }
+			}
+			@Override public void mousePressed(MouseEvent e) {}@Override public void mouseReleased(MouseEvent e) {}@Override public void mouseEntered(MouseEvent e) {}@Override public void mouseExited(MouseEvent e) {}			
+		});
+		
 		panelElementConnexion.add(login);
 		panelElementConnexion.add(saisieLogin);
 		panelElementConnexion.add(mdp);
 		panelElementConnexion.add(pass);
-
 		panel.add(panelElementConnexion);
+		
 		panelElementConnexionPlusBouton.add(panel);
 		panelElementConnexionPlusBouton.add(panelBouton);
 		panelConnexion.add(panelElementConnexionPlusBouton);
 		panelCentral.add(panelConnexion);
-
+	
+		
 		getContentPane().add(panelCentral);
 
 	}

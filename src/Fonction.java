@@ -56,14 +56,14 @@ public class Fonction {
 	static String dataRegion[][] = new String [30][7];
 
 	public static void Connection() {
-
+/*
 		try { 
 			Class.forName("com.mysql.cj.jdbc.Driver");  //System.out.println("Driver Loaded"); 
 		}  
 		catch (ClassNotFoundException ex) { //System.out.println("Driver Failed To Load"); 
 			System.out.println(ex.getMessage()); 
 		} // TODO connexion
-
+*/
 		try { 
 			Connection conn = DriverManager.getConnection(connectionUrl, username, password);
 			System.out.println("Connected To Server Successfully");
