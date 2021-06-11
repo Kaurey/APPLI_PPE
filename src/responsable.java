@@ -45,7 +45,7 @@ public class responsable {
 	
 	Frame_respon.setTitle("Responsable");
 	Frame_respon.setSize(900,400);
-	Gsb_Panel.start.setVisible(false);
+	Fenetre_Connexion.start.setVisible(false);
 	Frame_respon.setVisible(true);
 	Frame_respon.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	Frame_respon.setBounds(100, 100, 691, 451);
@@ -59,11 +59,12 @@ public class responsable {
 	JLabel lblNewLabel = new JLabel("Statut : Responsable");
 	mnNewMenu.add(lblNewLabel);
 	
-	JLabel lblSession = new JLabel("Session : "+Gsb_Panel.log);
+	JLabel lblSession = new JLabel("Session : "+Fenetre_Connexion.log);
 	mnNewMenu.add(lblSession);
 	
-	JLabel lbRegion = new JLabel("Region : "+Gsb_Panel.region);
+	JLabel lbRegion = new JLabel("Region : "+Fonction.region);
 	mnNewMenu.add(lbRegion);
+	System.out.println(Fonction.region);
 	
 	JSeparator separator = new JSeparator();
 	mnNewMenu.add(separator);
@@ -76,7 +77,7 @@ public class responsable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Logout Return Login");
-			Gsb_Panel.start.setVisible(true);
+			Fenetre_Connexion.start.setVisible(true);
 			Frame_respon.setVisible(false);
 		}
 });
@@ -121,10 +122,9 @@ public class responsable {
     header.add(listeGroupe);
     header.add(searchGrp);
     header.add(p1);
-    Gsb_Panel.Connection();
 /*---------------------------------------------GROUPE--------------------------------------------------------------------------*/  
 	try {
-	Connection conn = DriverManager.getConnection(Gsb_Panel.connectionUrl, Gsb_Panel.username, Gsb_Panel.password);//System.out.println("Connected To Server Successfully");
+	Connection conn = DriverManager.getConnection(Fenetre_Connexion.connectionUrl, Fenetre_Connexion.username, Fenetre_Connexion.password);//System.out.println("Connected To Server Successfully");
 	Statement stmt = conn.createStatement();
 	ResultSet visiteurlist = stmt.executeQuery("Select * from visiteur where statut='visiteur'");
 	  while(visiteurlist.next()) {
@@ -137,7 +137,7 @@ public class responsable {
 	  			+ "FROM `equipe` "
 	  			+ "LEFT JOIN `groupe` ON `equipe`.`id_groupe` = `groupe`.`id_groupe` "
 	  			+ "LEFT JOIN `visiteur` ON `equipe`.`id_visiteur` = `visiteur`.`id` "
-	  			+ "Where departement_code='"+Gsb_Panel.new_cp+"'");
+	  			+ "Where departement_code='"+Fonction.new_cp+"'");
 	  	String id_groupe;
 	  	ArrayList<String>stockGrp = new ArrayList<String>();
 			while(groupelist.next()) {
@@ -160,8 +160,8 @@ public class responsable {
 				data.hide();
 				p2.removeAll();
 				data.setText((String)listeGroupe.getSelectedItem());
-				Gsb_Panel.saisie = data.getText();
-				System.out.println(Gsb_Panel.saisie+"\n"+"- - - - - - - - - - - -");
+				Fenetre_Connexion.saisie = data.getText();
+				System.out.println(Fenetre_Connexion.saisie+"\n"+"- - - - - - - - - - - -");
 				try {
 					tableurGroupe();
 				} catch (SQLException e1) {
@@ -174,7 +174,7 @@ public class responsable {
 					  			+ "FROM `equipe` "
 					  			+ "LEFT JOIN `groupe` ON `equipe`.`id_groupe` = `groupe`.`id_groupe` "
 					  			+ "LEFT JOIN `visiteur` ON `equipe`.`id_visiteur` = `visiteur`.`id` "
-					  			+ "Where `equipe`.`id_groupe`='"+Gsb_Panel.saisie+"'");
+					  			+ "Where `equipe`.`id_groupe`='"+Fenetre_Connexion.saisie+"'");
 				      ResultSet res = stmt.executeQuery(query1);
 				      
 				      String columns[] = {"id_visiteur" ,"nom", "prenom","dateEmbauche"};
@@ -202,7 +202,7 @@ public class responsable {
 				      JScrollPane pane = new JScrollPane(table);
 				      pane.setPreferredSize(new Dimension(600, 150));
 				      p1.add(pane);
-				      String query = "SELECT `rapport_activite`.`rap_num`, `rapport_activite`.`rap_date`, `rapport_activite`.`rap_bilan`, `rapport_activite`.`rap_motif`, `praticien`.`pra_nom`, `praticien`.`pra_prenom` FROM `rapport_activite` LEFT JOIN `praticien` ON `rapport_activite`.`pra_code` = `praticien`.`pra_code` LEFT JOIN `visiteur` ON `rapport_activite`.`vis_matri` = `visiteur`.`id` WHERE `grp_id` = '"+Gsb_Panel.saisie+"' order by rap_date DESC";
+				      String query = "SELECT `rapport_activite`.`rap_num`, `rapport_activite`.`rap_date`, `rapport_activite`.`rap_bilan`, `rapport_activite`.`rap_motif`, `praticien`.`pra_nom`, `praticien`.`pra_prenom` FROM `rapport_activite` LEFT JOIN `praticien` ON `rapport_activite`.`pra_code` = `praticien`.`pra_code` LEFT JOIN `visiteur` ON `rapport_activite`.`vis_matri` = `visiteur`.`id` WHERE `grp_id` = '"+Fenetre_Connexion.saisie+"' order by rap_date DESC";
 					  ResultSet res1 = stmt.executeQuery(query);
 				    
 				      String columns1[] = {"date rapport","bilan rapport","motif rapport","nom praticien","prenom praticien"};
@@ -333,9 +333,9 @@ public class responsable {
 								ChartPanel chartPanel = new ChartPanel( lineChart );
 						
 							saisieDateGrp.setText(dateGraphique.getSelectedItem().toString());
-							Gsb_Panel.dateYearGrp = saisieDateGrp.getText();
+							Fenetre_Connexion.dateYearGrp = saisieDateGrp.getText();
 						//    System.out.println(dateYearGrp);
-						      String statGraphique = ("SELECT rap_date,rap_bilan,SUM(rap_bilan) as Total FROM `rapport_activite` WHERE grp_id='Groupe_1' && YEAR(rap_date) ='"+Gsb_Panel.dateYearGrp+"' group by Month(rap_date) ORDER BY rap_date,grp_id");
+						      String statGraphique = ("SELECT rap_date,rap_bilan,SUM(rap_bilan) as Total FROM `rapport_activite` WHERE grp_id='Groupe_1' && YEAR(rap_date) ='"+Fenetre_Connexion.dateYearGrp+"' group by Month(rap_date) ORDER BY rap_date,grp_id");
 						      ResultSet restStat = null;
 							try {
 								restStat = stmt.executeQuery(statGraphique);
@@ -406,14 +406,14 @@ public class responsable {
 			p2.removeAll();
 			p3.removeAll();
 			data.setText((String) liste.getSelectedItem());
-			Gsb_Panel.saisie = data.getText();
+			Fenetre_Connexion.saisie = data.getText();
 			//System.out.println(saisie);
-			String[] tab = Gsb_Panel.saisie.split(" ");
+			String[] tab = Fenetre_Connexion.saisie.split(" ");
 		    int lenght = tab.length;
-		    Gsb_Panel.searchByid=tab[0];
-		    Gsb_Panel.searchBynom = tab[1];
-		    Gsb_Panel.searchByprenom = tab[lenght-1];
-		    System.out.println(Gsb_Panel.searchByid+"\n"+Gsb_Panel.searchBynom+"\n"+Gsb_Panel.searchByprenom);
+		    Fenetre_Connexion.searchByid=tab[0];
+		    Fenetre_Connexion.searchBynom = tab[1];
+		    Fenetre_Connexion.searchByprenom = tab[lenght-1];
+		    System.out.println(Fenetre_Connexion.searchByid+"\n"+Fenetre_Connexion.searchBynom+"\n"+Fenetre_Connexion.searchByprenom);
 			try {
 				tableurVisiteur();
 			} catch (SQLException e1) {
@@ -424,7 +424,7 @@ public class responsable {
 		
 		
 		public void tableurVisiteur() throws SQLException {
-			  String query1 = "SELECT * FROM visiteur where nom='"+Gsb_Panel.searchBynom+"' && prenom='"+Gsb_Panel.searchByprenom+"'";
+			  String query1 = "SELECT * FROM visiteur where nom='"+Fenetre_Connexion.searchBynom+"' && prenom='"+Fenetre_Connexion.searchByprenom+"'";
 		      ResultSet res = stmt.executeQuery(query1);
 		    
 		      String columns[] = { "adresse", "ville", "cp","dateEmbauche","statut"};
@@ -454,7 +454,7 @@ public class responsable {
 		      pane.setPreferredSize(new Dimension(600, 150));
 		      p1.add(pane);
 		      
-			  String query = "SELECT `rapport_activite`.`rap_num`, `rapport_activite`.`rap_date`, `rapport_activite`.`rap_bilan`, `rapport_activite`.`rap_motif`, `praticien`.`pra_nom`, `praticien`.`pra_prenom` FROM `rapport_activite` LEFT JOIN `praticien` ON `rapport_activite`.`pra_code` = `praticien`.`pra_code` LEFT JOIN `visiteur` ON `rapport_activite`.`vis_matri` = `visiteur`.`id` WHERE `vis_matri` = '"+Gsb_Panel.searchByid+"'";
+			  String query = "SELECT `rapport_activite`.`rap_num`, `rapport_activite`.`rap_date`, `rapport_activite`.`rap_bilan`, `rapport_activite`.`rap_motif`, `praticien`.`pra_nom`, `praticien`.`pra_prenom` FROM `rapport_activite` LEFT JOIN `praticien` ON `rapport_activite`.`pra_code` = `praticien`.`pra_code` LEFT JOIN `visiteur` ON `rapport_activite`.`vis_matri` = `visiteur`.`id` WHERE `vis_matri` = '"+Fenetre_Connexion.searchByid+"'";
 			  ResultSet res1 = stmt.executeQuery(query);
 		    
 		      String columns1[] = {"date rapport","bilan rapport","motif rapport","nom praticien","prenom praticien"};
@@ -597,9 +597,9 @@ public class responsable {
 						ChartPanel chartPanel = new ChartPanel( lineChart );
 				
 					saisieDateVisit.setText(dateGraphique.getSelectedItem().toString());
-					Gsb_Panel.dateYearGrp = saisieDateVisit.getText();
+					Fenetre_Connexion.dateYearGrp = saisieDateVisit.getText();
 				//    System.out.println(dateYearGrp);
-				      String statGraphique = ("SELECT rap_date,rap_bilan,SUM(rap_bilan) as Total FROM `rapport_activite` WHERE `vis_matri` = '"+Gsb_Panel.searchByid+"' && YEAR(rap_date) ='"+Gsb_Panel.dateYearGrp+"' group by Month(rap_date) ORDER BY rap_date");
+				      String statGraphique = ("SELECT rap_date,rap_bilan,SUM(rap_bilan) as Total FROM `rapport_activite` WHERE `vis_matri` = '"+Fenetre_Connexion.searchByid+"' && YEAR(rap_date) ='"+Fenetre_Connexion.dateYearGrp+"' group by Month(rap_date) ORDER BY rap_date");
 				      ResultSet restStat = null;
 					try {
 						restStat = stmt.executeQuery(statGraphique);
