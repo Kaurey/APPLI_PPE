@@ -6,9 +6,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="D:/java-2019-09/eclipse/plugins/jfreechart-demo-1.5.2-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="D:/java-2019-09/eclipse/plugins/miglayout15-swing.jar"/>
-	<classpathentry kind="lib" path="D:/java-2019-09/eclipse/plugins/mysql-connector-java-8.0.22.jar"/>
-	<classpathentry kind="lib" path="D:/java-2019-09/eclipse/plugins/org.eclipse.equinox.launcher_1.5.500.v20190715-1310.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-demo-1.5.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.22.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.launcher_1.5.500.v20190715-1310.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

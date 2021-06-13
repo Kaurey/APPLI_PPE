@@ -124,7 +124,7 @@ public class responsable {
     header.add(p1);
 /*---------------------------------------------GROUPE--------------------------------------------------------------------------*/  
 	try {
-	Connection conn = DriverManager.getConnection(Fenetre_Connexion.connectionUrl, Fenetre_Connexion.username, Fenetre_Connexion.password);//System.out.println("Connected To Server Successfully");
+	Connection conn = DriverManager.getConnection(Fonction.connectionUrl, Fonction.username, Fonction.password);//System.out.println("Connected To Server Successfully");
 	Statement stmt = conn.createStatement();
 	ResultSet visiteurlist = stmt.executeQuery("Select * from visiteur where statut='visiteur'");
 	  while(visiteurlist.next()) {

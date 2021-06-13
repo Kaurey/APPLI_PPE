@@ -31,16 +31,7 @@ public class Fenetre_Connexion extends JFrame {
 	static JPasswordField pass = new JPasswordField();
 	static String log;
 	static String mdp;
-	/* Alwaysdata BDD */
-	/*
-	static String username = "232247_thococpas";	
-	static String password = "CocoPascalThomas77ppe";
-	static String connectionUrl = "jdbc:mysql://mysql-gsbthococpas.alwaysdata.net:3306/gsbthococpas_gsbv2";
-	*/
-	/* Local*/
-	static String username = "root"; 
-	static String password = "";
-	static String connectionUrl = "jdbc:mysql://127.0.0.1:3306/ppe2gsb";
+
 	@SuppressWarnings("unused")
 	private JPanel contentPane;
 	static JPasswordField motdepasse;

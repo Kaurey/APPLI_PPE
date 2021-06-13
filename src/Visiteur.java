@@ -76,7 +76,7 @@ public class Visiteur extends JFrame{
 		
 		JLabel prenomVisiteur = new JLabel(" Prénom : " + Fonction.prenomVisiteurBDD + " ");
 		JLabel nomVisiteur = new JLabel(" Nom : " + Fonction.nomVisiteurBDD + " ");
-		setTitle("Application GSB | Session Visiteur: "+Fonction.prenomVisiteurBDD+" "+Fonction.nomVisiteurBDD);
+		setTitle("Application GSB");
 		
 		JLabel statutVisiteur = new JLabel(" Statut : " + Fonction.statutUtilisateurBDD + " ");
 		

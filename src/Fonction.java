@@ -38,11 +38,11 @@ public class Fonction {
 	static String username = "232247_thococpas";	
 	static String password = "CocoPascalThomas77ppe";
 	static String connectionUrl = "jdbc:mysql://mysql-gsbthococpas.alwaysdata.net:3306/gsbthococpas_gsbv2";
-	/*static String username = "kxmo5226_autres"; 
+	/*
+	static String username = "kxmo5226_autres"; 
 	static String password = "Autres@202021#1234IPSSILMJRT";
-	static String connectionUrl = "jdbc:mysql://109.234.161.209:3306/kxmo5226_gsbvcooper";
+	static String connectionUrl = "jdbc:mysql://109.234.161.209:3306/kxmo5226_gsbvcooper?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	*/
-
 	static String prenomVisiteurBDD;
 	static String nomVisiteurBDD;
 	static String statutUtilisateurBDD;
