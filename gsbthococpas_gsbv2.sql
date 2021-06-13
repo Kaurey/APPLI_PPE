@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql-gsbthococpas.alwaysdata.net
--- Generation Time: Jun 11, 2021 at 02:07 PM
+-- Generation Time: Jun 12, 2021 at 03:23 AM
 -- Server version: 10.5.8-MariaDB
 -- PHP Version: 7.4.19
 
@@ -139,6 +139,29 @@ INSERT INTO `departement` (`departement_id`, `departement_code`, `departement_no
 (99, '973', 'Guyane'),
 (100, '972', 'Martinique'),
 (101, '974', 'Réunion');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `equipe`
+--
+
+CREATE TABLE `equipe` (
+  `id` int(11) NOT NULL,
+  `id_visiteur` char(4) NOT NULL,
+  `id_groupe` char(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `equipe`
+--
+
+INSERT INTO `equipe` (`id`, `id_visiteur`, `id_groupe`) VALUES
+(1, 'b25', 'Groupe_1'),
+(2, 'b28', 'Groupe_1'),
+(3, 'e24', 'Groupe_2'),
+(4, 'b34', 'Groupe_1'),
+(7, 'b34', 'Groupe_1.2');
 
 -- --------------------------------------------------------
 
@@ -1172,6 +1195,26 @@ INSERT INTO `fraisforfait` (`id`, `libelle`, `montant`) VALUES
 ('KM', 'Frais Kilométrique', '0.62'),
 ('NUI', 'Nuitée Hôtel', '80.00'),
 ('REP', 'Repas Restaurant', '25.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `groupe`
+--
+
+CREATE TABLE `groupe` (
+  `id_groupe` char(20) NOT NULL,
+  `departement_code` char(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `groupe`
+--
+
+INSERT INTO `groupe` (`id_groupe`, `departement_code`) VALUES
+('Groupe_1', '75'),
+('Groupe_1.2', '75'),
+('Groupe_2', '76');
 
 -- --------------------------------------------------------
 
@@ -5717,6 +5760,38 @@ INSERT INTO `praticien` (`pra_code`, `pra_nom`, `pra_prenom`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `rapport_activite`
+--
+
+CREATE TABLE `rapport_activite` (
+  `rap_num` int(20) NOT NULL,
+  `rap_date` date NOT NULL,
+  `rap_bilan` int(50) DEFAULT NULL,
+  `rap_motif` char(50) NOT NULL,
+  `pra_code` char(20) NOT NULL,
+  `vis_matri` char(4) DEFAULT NULL,
+  `grp_id` char(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `rapport_activite`
+--
+
+INSERT INTO `rapport_activite` (`rap_num`, `rap_date`, `rap_bilan`, `rap_motif`, `pra_code`, `vis_matri`, `grp_id`) VALUES
+(1, '2021-04-11', 99, 'test covid', '123', 'a131', NULL),
+(2, '2021-04-11', 1, 'test covid 2', '123', 'a55', NULL),
+(3, '2021-04-13', 3, 'test covid 3', '123', 'a55', NULL),
+(4, '2021-03-14', 4, 'test covid 4', '123', 'a55', NULL),
+(5, '2021-05-19', 5, 'test covid 5', '123', 'a55', NULL),
+(6, '2021-04-29', 50, 'réception Vaccin', '123', NULL, 'Groupe_1'),
+(7, '2021-03-29', 300, 'réception Vaccin 2', '123', NULL, 'Groupe_1'),
+(8, '2020-03-29', 500, 'réception Vaccin', '123', NULL, 'Groupe_1'),
+(9, '2021-03-28', 300, 'réception Vaccin 2', '123', NULL, 'Groupe_1'),
+(10, '2020-02-29', 10, 'réception Vaccin', '123', NULL, 'Groupe_1');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `rapport_visite`
 --
 
@@ -5766,10 +5841,10 @@ INSERT INTO `rapport_visiteur` (`rap_num`, `rap_date`, `rap_bilan`, `rap_motif`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `regions`
+-- Table structure for table `region`
 --
 
-CREATE TABLE `regions` (
+CREATE TABLE `region` (
   `id` int(10) UNSIGNED NOT NULL,
   `code` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -5777,10 +5852,10 @@ CREATE TABLE `regions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `regions`
+-- Dumping data for table `region`
 --
 
-INSERT INTO `regions` (`id`, `code`, `name`, `slug`) VALUES
+INSERT INTO `region` (`id`, `code`, `name`, `slug`) VALUES
 (1, '01', 'Guadeloupe', 'guadeloupe'),
 (2, '02', 'Martinique', 'martinique'),
 (3, '03', 'Guyane', 'guyane'),
@@ -5817,43 +5892,45 @@ CREATE TABLE `visiteur` (
   `cp` char(5) DEFAULT NULL,
   `ville` char(30) DEFAULT NULL,
   `dateEmbauche` date DEFAULT NULL,
-  `statut` char(50) NOT NULL DEFAULT 'visiteur'
+  `statut` char(50) NOT NULL DEFAULT 'visiteur',
+  `echantillon_offert` int(11) NOT NULL,
+  `region` varchar(255) NOT NULL DEFAULT 'Normandie'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `visiteur`
 --
 
-INSERT INTO `visiteur` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`, `ville`, `dateEmbauche`, `statut`) VALUES
-('1', 'Pascal', 'Kien', 'abc', 'abc', 'chez moi', '77600', 'dans ma ville', '2021-03-22', 'comptable'),
-('2', 'Pine', 'Apple', 'az', 'az', 'Ananas', '12345', 'Fruityland', '2021-04-01', 'responsable'),
-('a131', 'Villechalane', 'Louis', 'lvillachane', 'jux7g', '8 rue des Charmes', '46000', 'Cahors', '2005-12-21', 'visiteur'),
-('a17', 'Andre', 'David', 'dandre', 'oppg5', '1 rue Petit', '46200', 'Lalbenque', '1998-11-23', 'visiteur'),
-('a55', 'Bedos', 'Christian', 'cbedos', 'gmhxd', '1 rue Peranud', '46250', 'Montcuq', '1995-01-12', 'visiteur'),
-('a93', 'Tusseau', 'Louis', 'ltusseau', 'ktp3s', '22 rue des Ternes', '46123', 'Gramat', '2000-05-01', 'visiteur'),
-('b13', 'Bentot', 'Pascal', 'pbentot', 'doyw1', '11 allée des Cerises', '46512', 'Bessines', '1992-07-09', 'visiteur'),
-('b16', 'Bioret', 'Luc', 'lbioret', 'hrjfs', '1 Avenue gambetta', '46000', 'Cahors', '1998-05-11', 'visiteur'),
-('b19', 'Bunisset', 'Francis', 'bf', 'bf', '10 rue des Perles', '93100', 'Montreuil', '1987-10-21', 'delegue'),
-('b25', 'Cooper', 'Thomas', 'aa', 'aa', '23 rue Manin', '77400', 'Lagny sur Marne', '2010-12-05', 'délégué'),
-('b28', 'Cacheux', 'Bernard', 'bcacheux', 'uf7r3', '114 rue Blanche', '75017', 'Paris', '2009-11-12', 'visiteur'),
-('b34', 'Cadic', 'Eric', 'ecadic', '6u8dc', '123 avenue de la République', '75011', 'Paris', '2008-09-23', 'visiteur'),
-('b4', 'Charoze', 'Catherine', 'ccharoze', 'u817o', '100 rue Petit', '75019', 'Paris', '2005-11-12', 'visiteur'),
-('b50', 'Clepkens', 'Christophe', 'cclepkens', 'bw1us', '12 allée des Anges', '93230', 'Romainville', '2003-08-11', 'visiteur'),
-('b59', 'Cottin', 'Vincenne', 'vcottin', '2hoh9', '36 rue Des Roches', '93100', 'Monteuil', '2001-11-18', 'visiteur'),
-('c14', 'Daburon', 'François', 'fdaburon', '7oqpv', '13 rue de Chanzy', '94000', 'Créteil', '2002-02-11', 'visiteur'),
-('c3', 'De', 'Philippe', 'pde', 'gk9kx', '13 rue Barthes', '94000', 'Créteil', '2010-12-14', 'visiteur'),
-('c54', 'Debelle', 'Michel', 'mdebelle', 'od5rt', '181 avenue Barbusse', '93210', 'Rosny', '2006-11-23', 'visiteur'),
-('d13', 'Debelle', 'Jeanne', 'jdebelle', 'nvwqq', '134 allée des Joncs', '44000', 'Nantes', '2000-05-11', 'visiteur'),
-('d51', 'Debroise', 'Michel', 'mdebroise', 'sghkb', '2 Bld Jourdain', '44000', 'Nantes', '2001-04-17', 'visiteur'),
-('e22', 'Desmarquest', 'Nathalie', 'ndesmarquest', 'f1fob', '14 Place d Arc', '45000', 'Orléans', '2005-11-12', 'visiteur'),
-('e24', 'Desnost', 'Pierre', 'pdesnost', '4k2o5', '16 avenue des Cèdres', '23200', 'Guéret', '2001-02-05', 'visiteur'),
-('e39', 'Dudouit', 'Frédéric', 'fdudouit', '44im8', '18 rue de l église', '23120', 'GrandBourg', '2000-08-01', 'visiteur'),
-('e49', 'Duncombe', 'Claude', 'cduncombe', 'qf77j', '19 rue de la tour', '23100', 'La souteraine', '1987-10-10', 'visiteur'),
-('e5', 'Enault-Pascreau', 'Céline', 'cenault', 'y2qdu', '25 place de la gare', '23200', 'Gueret', '1995-09-01', 'visiteur'),
-('e52', 'Eynde', 'Valérie', 'veynde', 'i7sn3', '3 Grand Place', '13015', 'Marseille', '1999-11-01', 'visiteur'),
-('f21', 'Finck', 'Jacques', 'jfinck', 'mpb3t', '10 avenue du Prado', '13002', 'Marseille', '2001-11-10', 'visiteur'),
-('f39', 'Frémont', 'Fernande', 'ffremont', 'xs5tq', '4 route de la mer', '13012', 'Allauh', '1998-10-01', 'visiteur'),
-('f4', 'Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01', 'visiteur');
+INSERT INTO `visiteur` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`, `ville`, `dateEmbauche`, `statut`, `echantillon_offert`, `region`) VALUES
+('1', 'Pascal', 'Kien', 'abc', 'abc', 'chez moi', '77600', 'dans ma ville', '2021-03-22', 'comptable', 0, 'Normandie'),
+('2', 'Pine', 'Apple', 'az', 'az', 'Ananas', '75017', 'Fruityland', '2021-04-01', 'responsable', 0, 'Normandie'),
+('a131', 'Villechalane', 'Louis', 'lvillachane', 'jux7g', '8 rue des Charmes', '46000', 'Cahors', '2005-12-21', 'visiteur', 5, 'Ile de France'),
+('a17', 'Andre', 'David', 'dandre', 'oppg5', '1 rue Petit', '46200', 'Lalbenque', '1998-11-23', 'visiteur', 2, 'Bourgogne'),
+('a55', 'Bedos', 'Christian', 'cbedos', 'gmhxd', '1 rue Peranud', '46250', 'Montcuq', '1995-01-12', 'visiteur', 10, 'Normandie'),
+('a93', 'Tusseau', 'Louis', 'ltusseau', 'ktp3s', '22 rue des Ternes', '46123', 'Gramat', '2000-05-01', 'visiteur', 12, 'Normandie'),
+('b13', 'Bentot', 'Pascal', 'pbentot', 'doyw1', '11 allée des Cerises', '46512', 'Bessines', '1992-07-09', 'visiteur', 0, 'Auvergne'),
+('b16', 'Bioret', 'Luc', 'lbioret', 'hrjfs', '1 Avenue gambetta', '46000', 'Cahors', '1998-05-11', 'visiteur', 7, 'Bretagne'),
+('b19', 'Bunisset', 'Francis', 'bf', 'bf', '10 rue des Perles', '93100', 'Montreuil', '1987-10-21', 'delegue', 0, 'Centre-Val de Loire'),
+('b25', 'Cooper', 'Thomas', 'aa', 'aa', '23 rue Manin', '77400', 'Lagny sur Marne', '2010-12-05', 'délégué', 7, 'Provences'),
+('b28', 'Cacheux', 'Bernard', 'bcacheux', 'uf7r3', '114 rue Blanche', '75017', 'Paris', '2009-11-12', 'visiteur', 0, 'Grand Est'),
+('b34', 'Cadic', 'Eric', 'ecadic', '6u8dc', '123 avenue de la République', '75011', 'Paris', '2008-09-23', 'visiteur', 0, 'Hauts de France'),
+('b4', 'Charoze', 'Catherine', 'ccharoze', 'u817o', '100 rue Petit', '75019', 'Paris', '2005-11-12', 'visiteur', 0, 'Nouvelle Aquitaine'),
+('b50', 'Clepkens', 'Christophe', 'cclepkens', 'bw1us', '12 allée des Anges', '93230', 'Romainville', '2003-08-11', 'visiteur', 0, 'Occitanie'),
+('b59', 'Cottin', 'Vincenne', 'vcottin', '2hoh9', '36 rue Des Roches', '93100', 'Monteuil', '2001-11-18', 'visiteur', 0, 'Pays de la Loire'),
+('c14', 'Daburon', 'François', 'fdaburon', '7oqpv', '13 rue de Chanzy', '94000', 'Créteil', '2002-02-11', 'visiteur', 0, 'Provences'),
+('c3', 'De', 'Philippe', 'pde', 'gk9kx', '13 rue Barthes', '94000', 'Créteil', '2010-12-14', 'visiteur', 0, 'Provences'),
+('c54', 'Debelle', 'Michel', 'mdebelle', 'od5rt', '181 avenue Barbusse', '93210', 'Rosny', '2006-11-23', 'visiteur', 0, 'Provences'),
+('d13', 'Debelle', 'Jeanne', 'jdebelle', 'nvwqq', '134 allée des Joncs', '44000', 'Nantes', '2000-05-11', 'visiteur', 0, 'Provences'),
+('d51', 'Debroise', 'Michel', 'mdebroise', 'sghkb', '2 Bld Jourdain', '44000', 'Nantes', '2001-04-17', 'visiteur', 0, 'Provences'),
+('e22', 'Desmarquest', 'Nathalie', 'ndesmarquest', 'f1fob', '14 Place d Arc', '45000', 'Orléans', '2005-11-12', 'visiteur', 0, 'Provences'),
+('e24', 'Desnost', 'Pierre', 'pdesnost', '4k2o5', '16 avenue des Cèdres', '23200', 'Guéret', '2001-02-05', 'visiteur', 0, 'Provences'),
+('e39', 'Dudouit', 'Frédéric', 'fdudouit', '44im8', '18 rue de l église', '23120', 'GrandBourg', '2000-08-01', 'visiteur', 0, 'Provences'),
+('e49', 'Duncombe', 'Claude', 'cduncombe', 'qf77j', '19 rue de la tour', '23100', 'La souteraine', '1987-10-10', 'visiteur', 0, 'Provences'),
+('e5', 'Enault-Pascreau', 'Céline', 'cenault', 'y2qdu', '25 place de la gare', '23200', 'Gueret', '1995-09-01', 'visiteur', 0, 'Provences'),
+('e52', 'Eynde', 'Valérie', 'veynde', 'i7sn3', '3 Grand Place', '13015', 'Marseille', '1999-11-01', 'visiteur', 0, 'Provences'),
+('f21', 'Finck', 'Jacques', 'jfinck', 'mpb3t', '10 avenue du Prado', '13002', 'Marseille', '2001-11-10', 'visiteur', 0, 'Provences'),
+('f39', 'Frémont', 'Fernande', 'ffremont', 'xs5tq', '4 route de la mer', '13012', 'Allauh', '1998-10-01', 'visiteur', 0, 'Provences'),
+('f4', 'Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01', 'visiteur', 0, 'Provences');
 
 --
 -- Indexes for dumped tables
@@ -5865,6 +5942,14 @@ INSERT INTO `visiteur` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`, 
 ALTER TABLE `departement`
   ADD PRIMARY KEY (`departement_id`),
   ADD KEY `departement_code` (`departement_code`);
+
+--
+-- Indexes for table `equipe`
+--
+ALTER TABLE `equipe`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_visiteur` (`id_visiteur`),
+  ADD KEY `id_groupe` (`id_groupe`);
 
 --
 -- Indexes for table `etat`
@@ -5884,6 +5969,12 @@ ALTER TABLE `fichefrais`
 --
 ALTER TABLE `fraisforfait`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `groupe`
+--
+ALTER TABLE `groupe`
+  ADD PRIMARY KEY (`id_groupe`);
 
 --
 -- Indexes for table `lignefraisforfait`
@@ -5912,6 +6003,15 @@ ALTER TABLE `praticien`
   ADD PRIMARY KEY (`pra_code`);
 
 --
+-- Indexes for table `rapport_activite`
+--
+ALTER TABLE `rapport_activite`
+  ADD PRIMARY KEY (`rap_num`),
+  ADD KEY `vis_matri` (`vis_matri`),
+  ADD KEY `pra_code` (`pra_code`),
+  ADD KEY `grp_id` (`grp_id`);
+
+--
 -- Indexes for table `rapport_visite`
 --
 ALTER TABLE `rapport_visite`
@@ -5929,9 +6029,9 @@ ALTER TABLE `rapport_visiteur`
   ADD KEY `pra_code` (`pra_code`);
 
 --
--- Indexes for table `regions`
+-- Indexes for table `region`
 --
-ALTER TABLE `regions`
+ALTER TABLE `region`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `regions_code_unique` (`code`);
 
@@ -5952,6 +6052,12 @@ ALTER TABLE `departement`
   MODIFY `departement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
+-- AUTO_INCREMENT for table `equipe`
+--
+ALTER TABLE `equipe`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `lignefraishorsforfait`
 --
 ALTER TABLE `lignefraishorsforfait`
@@ -5964,20 +6070,33 @@ ALTER TABLE `medicament`
   MODIFY `numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `rapport_activite`
+--
+ALTER TABLE `rapport_activite`
+  MODIFY `rap_num` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT for table `rapport_visite`
 --
 ALTER TABLE `rapport_visite`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
--- AUTO_INCREMENT for table `regions`
+-- AUTO_INCREMENT for table `region`
 --
-ALTER TABLE `regions`
+ALTER TABLE `region`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `equipe`
+--
+ALTER TABLE `equipe`
+  ADD CONSTRAINT `equipe_ibfk_1` FOREIGN KEY (`id_visiteur`) REFERENCES `visiteur` (`id`),
+  ADD CONSTRAINT `equipe_ibfk_2` FOREIGN KEY (`id_groupe`) REFERENCES `groupe` (`id_groupe`);
 
 --
 -- Constraints for table `fichefrais`
@@ -5998,6 +6117,14 @@ ALTER TABLE `lignefraisforfait`
 --
 ALTER TABLE `lignefraishorsforfait`
   ADD CONSTRAINT `lignefraishorsforfait_ibfk_1` FOREIGN KEY (`idVisiteur`,`mois`) REFERENCES `fichefrais` (`idVisiteur`, `mois`);
+
+--
+-- Constraints for table `rapport_activite`
+--
+ALTER TABLE `rapport_activite`
+  ADD CONSTRAINT `rapport_activite_ibfk_1` FOREIGN KEY (`pra_code`) REFERENCES `praticien` (`pra_code`),
+  ADD CONSTRAINT `rapport_activite_ibfk_2` FOREIGN KEY (`vis_matri`) REFERENCES `visiteur` (`id`),
+  ADD CONSTRAINT `rapport_activite_ibfk_3` FOREIGN KEY (`grp_id`) REFERENCES `groupe` (`id_groupe`);
 
 --
 -- Constraints for table `rapport_visiteur`
